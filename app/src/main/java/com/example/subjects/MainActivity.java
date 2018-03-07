@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-//                HomeActivity.start(MainActivity.this);
-                DrawingBoardActivity.start(MainActivity.this);
+                HomeActivity.start(MainActivity.this);
 
                 finish();
             }

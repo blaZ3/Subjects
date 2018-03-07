@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.subjects.BaseActivity;
@@ -32,6 +34,8 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_drawing_board);
 
+        initToolbar();
+
         drawingBoardPresenter = new DrawingBoardPresenter(this);
 
         drawingView = new DrawingView(this);
@@ -54,15 +58,45 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
         doInit();
     }
 
-    private void saveDrawing() {
-        Bitmap drawing = drawingView.saveDrawing();
-        drawingBoardPresenter.saveDrawing(drawing);
+    private void initToolbar() {
+        setSupportActionBar(dataBinding.toolbarDrawing);
+        getSupportActionBar().setTitle("Draw");
+        dataBinding.toolbarDrawing.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
+        dataBinding.toolbarDrawing.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        dataBinding.toolbarDrawing.inflateMenu(R.menu.menu_drawing);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_draw_undo:
+                makeToast("Undo");
+                break;
+            case R.id.action_draw_redo:
+                makeToast("Redo");
+                break;
+        }
+        return true;
+    }
 
     @Override
     public void doInit() {
 
+    }
+
+    private void saveDrawing() {
+        Bitmap drawing = drawingView.saveDrawing();
+        drawingBoardPresenter.saveDrawing(drawing);
     }
 
     @Override

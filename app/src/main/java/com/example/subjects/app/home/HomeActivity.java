@@ -6,12 +6,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.subjects.BaseActivity;
 import com.example.subjects.MainApplication;
 import com.example.subjects.R;
 import com.example.subjects.app.addSubject.AddSubjectActivity;
+import com.example.subjects.app.drawing.DrawingBoardActivity;
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.LocalSubjectRepository;
 import com.example.subjects.databinding.ActivityHomeBinding;
@@ -37,6 +40,8 @@ public class HomeActivity extends BaseActivity implements HomeView {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
+        initToolbar();
+
         homePresenter = new HomePresenter(this, LocalSubjectRepository.getInstance(
                 MainApplication.getAppDatabase().subjectDAO()));
 
@@ -53,6 +58,33 @@ public class HomeActivity extends BaseActivity implements HomeView {
         super.onResume();
 
         doInit();
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(dataBinding.toolbarHome);
+        getSupportActionBar().setTitle("Home");
+        dataBinding.toolbarHome.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        dataBinding.toolbarHome.inflateMenu(R.menu.menu_home);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_home_draw:
+                DrawingBoardActivity.start(HomeActivity.this);
+                break;
+        }
+        return true;
     }
 
     SubjectAdapter.SubjectAdapterInterface subjectAdapterInterface = new SubjectAdapter.SubjectAdapterInterface() {
