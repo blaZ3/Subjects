@@ -11,32 +11,39 @@ import java.util.ArrayList;
 public class MockSubjectRepository implements SubjectRepository {
     private static final String TAG = MockSubjectRepository.class.getSimpleName();
 
-    static MockSubjectRepository instance;
+    private boolean fail = false;
 
-    public static MockSubjectRepository getInstance() {
-        if (instance == null){
-            instance = new MockSubjectRepository();
-        }
-        return instance;
-    }
-
-
-    private MockSubjectRepository() {
-
+    public MockSubjectRepository(boolean fail) {
+        this.fail = fail;
     }
 
     @Override
     public void addSubject(Subject subject, AddSubjectInterface callback) {
+        if (fail){
+            callback.onError();
+            return;
+        }
+
         callback.addedSubject(subject);
     }
 
     @Override
     public void removeSubject(Subject subject, RemoveSubjectInterface removeSubjectInterface) {
+        if (fail){
+            removeSubjectInterface.onError();
+            return;
+        }
+
         removeSubjectInterface.removedSubject(subject);
     }
 
     @Override
     public void getSubjects(GetSubjectsInterface callback) {
+        if (fail){
+            callback.gotSubjects(null);
+            return;
+        }
+
         ArrayList<Subject> subjects = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             Subject subject = new Subject();

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.SubjectRepository;
+import com.example.subjects.app.utils.StringUtils;
 
 import java.io.File;
 
@@ -25,17 +26,17 @@ public class AddSubjectPresenter {
 
     public void addSubject(String title, String desc, String imgFilePath){
 
-        if(TextUtils.isEmpty(title)){
+        if(StringUtils.isEmpty(title)){
             subjectView.showTitleError();
             return;
         }
 
-        if (TextUtils.isEmpty(desc)){
+        if (StringUtils.isEmpty(desc)){
             subjectView.showDescError();
             return;
         }
 
-        if (!TextUtils.isEmpty(imgFilePath)){
+        if (!StringUtils.isEmpty(imgFilePath)){
             File file = new File(imgFilePath);
             if (!file.exists()){
                 subjectView.showImageError();
