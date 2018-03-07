@@ -26,12 +26,17 @@ public class MockSubjectRepository implements SubjectRepository {
     }
 
     @Override
+    public void removeSubject(Subject subject, RemoveSubjectInterface removeSubjectInterface) {
+        removeSubjectInterface.removedSubject(subject);
+    }
+
+    @Override
     public void getSubjects(GetSubjectsInterface callback) {
         ArrayList<Subject> subjects = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             Subject subject = new Subject();
-            subject.setTitle("Title 1");
-            subject.setTitle("Desc desc desc desc desc desc desc desc desc desc desc desc desc desc ");
+            subject.setTitle("Title "+i);
+            subject.setDesc("Desc desc desc desc desc desc desc desc desc desc desc desc desc desc ");
             subject.setImgFilePath("");
 
             subjects.add(subject);

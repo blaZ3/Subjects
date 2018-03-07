@@ -18,6 +18,8 @@ public interface HomeView {
     void showError();
 
     void showEmptyState();
+
     void gotSubjects(ArrayList<Subject> subjects);
+    void subjectRemoved(Subject subject, int position);
 
 }

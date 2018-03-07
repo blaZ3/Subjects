@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.subjects.R;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectAdapterViewHolder> {
     private static final String TAG = SubjectAdapter.class.getSimpleName();
 
+    static private SubjectAdapterInterface adapterInterface;
+
     private ArrayList<Subject> items;
     private Context context;
 
@@ -31,12 +34,27 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectA
         public SubjectAdapterViewHolder(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
             this.dataBinding = (LayoutSubjectItemBinding) viewDataBinding;
+
+            this.dataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapterInterface.subjectSelected(getAdapterPosition());
+                }
+            });
+
+            this.dataBinding.imgSubjectItemDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapterInterface.deleteSubject(getAdapterPosition());
+                }
+            });
         }
     }
 
-    public SubjectAdapter(Context context, ArrayList<Subject> items){
+    public SubjectAdapter(Context context, ArrayList<Subject> items, SubjectAdapterInterface adapterInterface){
         this.context = context;
         this.items = items;
+        this.adapterInterface = adapterInterface;
     }
 
     @Override
@@ -67,4 +85,15 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectA
         }
         return 0;
     }
+
+    public ArrayList<Subject> getItems() {
+        return items;
+    }
+
+    interface SubjectAdapterInterface{
+        void subjectSelected(int position);
+        void deleteSubject(int position);
+    }
+
 }
+

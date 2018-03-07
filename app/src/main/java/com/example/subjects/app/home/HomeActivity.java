@@ -53,6 +53,18 @@ public class HomeActivity extends BaseActivity implements HomeView {
         doInit();
     }
 
+    SubjectAdapter.SubjectAdapterInterface subjectAdapterInterface = new SubjectAdapter.SubjectAdapterInterface() {
+        @Override
+        public void subjectSelected(int position) {
+            makeToast(subjectAdapter.getItems().get(position).getTitle());
+        }
+
+        @Override
+        public void deleteSubject(int position) {
+            homePresenter.deleteSubject(subjectAdapter.getItems().get(position), position);
+        }
+    };
+
     @Override
     public void doInit() {
         homePresenter.getSubjects();
@@ -66,8 +78,21 @@ public class HomeActivity extends BaseActivity implements HomeView {
         dataBinding.recyclerHome.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
 
-        subjectAdapter = new SubjectAdapter(this, subjects);
+        subjectAdapter = new SubjectAdapter(this, subjects, subjectAdapterInterface);
         dataBinding.recyclerHome.setAdapter(subjectAdapter);
+    }
+
+
+    @Override
+    public void subjectRemoved(Subject subject, int position) {
+        subjectAdapter.getItems().remove(subject);
+        subjectAdapter.notifyItemRemoved(position);
+        makeToast(subject.getTitle()+" removed");
+
+
+        if (subjectAdapter.getItems().size()<1){
+            showEmptyState();
+        }
     }
 
     @Override

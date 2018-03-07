@@ -22,7 +22,6 @@ public class HomePresenter {
         this.subjectRepository = subjectRepository;
     }
 
-
     public void getSubjects(){
         homeView.showLoading();
         subjectRepository.getSubjects(new SubjectRepository.GetSubjectsInterface() {
@@ -39,9 +38,24 @@ public class HomePresenter {
             @Override
             public void onError() {
                 homeView.hideLoading();
-
+                homeView.showError();
             }
         });
+    }
+
+    public void deleteSubject(final Subject subject, final int position){
+        subjectRepository.removeSubject(subject, new SubjectRepository.RemoveSubjectInterface() {
+            @Override
+            public void removedSubject(Subject subject) {
+                homeView.subjectRemoved(subject, position);
+            }
+
+            @Override
+            public void onError() {
+                homeView.showError();
+            }
+        });
+
     }
 
 }
