@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.subjects.db.SubjectDAO;
 import com.example.subjects.app.subject.models.Subject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -77,6 +78,13 @@ public class LocalSubjectRepository implements SubjectRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             subjectDAO.removeSubject(subject);
+
+            try{
+                File file = new File(subject.getImgFilePath());
+                file.delete();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
 
             return null;
         }
