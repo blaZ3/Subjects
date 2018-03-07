@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.subjects.AppConstants;
 import com.example.subjects.BaseActivity;
+import com.example.subjects.MainActivity;
 import com.example.subjects.MainApplication;
 import com.example.subjects.R;
 import com.example.subjects.app.addSubject.AddSubjectActivity;
@@ -18,6 +21,9 @@ import com.example.subjects.app.drawing.DrawingBoardActivity;
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.LocalSubjectRepository;
 import com.example.subjects.databinding.ActivityHomeBinding;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -82,6 +88,21 @@ public class HomeActivity extends BaseActivity implements HomeView {
         switch (item.getItemId()){
             case R.id.action_home_draw:
                 DrawingBoardActivity.start(HomeActivity.this);
+                break;
+            case R.id.action_home_logout:
+                makeToast("Logging you out");
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                MainApplication.getSharedPref()
+                                        .edit()
+                                        .putString(AppConstants.PREF_LOGGED_IN, "")
+                                        .commit();
+                                MainActivity.start(HomeActivity.this);
+                                finish();
+                            }
+                        });
                 break;
         }
         return true;
