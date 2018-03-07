@@ -9,4 +9,10 @@
         android:title="DRAW"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/action_home_logout"
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="always"/>
+
+
+
 </menu>
