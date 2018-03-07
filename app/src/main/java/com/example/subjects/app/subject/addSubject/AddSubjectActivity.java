@@ -3,10 +3,10 @@ package com.example.subjects.app.subject.addSubject;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -16,6 +16,8 @@ import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.MockSubjectRepository;
 import com.example.subjects.app.utils.FileHelper;
 import com.example.subjects.databinding.ActivityAddSubjectBinding;
+
+import java.io.File;
 
 public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
     private static final String TAG = AddSubjectActivity.class.getSimpleName();
@@ -27,6 +29,8 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
 
     private String  imageFilePath = null;
 
+    private String timeOpened;
+
     public static void start(Context context) {
         Log.d(TAG, "start() called with: context = [" + context + "]");
         Intent starter = new Intent(context, AddSubjectActivity.class);
@@ -37,6 +41,8 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_subject);
+
+        timeOpened = ""+System.currentTimeMillis();
 
         addSubjectPresenter = new AddSubjectPresenter(this, MockSubjectRepository.getInstance());
 
@@ -66,12 +72,24 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
             Uri imageFileUri = data.getData();
             try{
-                imageFilePath = FileHelper.savefile(getApplicationContext(), imageFileUri);
+                imageFilePath = FileHelper.savefile(getApplicationContext(), imageFileUri, timeOpened);
                 dataBinding.imgSubjectImage.setImageBitmap(
                         BitmapFactory.decodeFile(imageFilePath));
             }catch (Exception ex){
                 ex.printStackTrace();
                 imageFilePath = null;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!TextUtils.isEmpty(imageFilePath)){
+            try{
+                new File(imageFilePath).delete();
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
         }
     }

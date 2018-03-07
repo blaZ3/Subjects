@@ -37,14 +37,13 @@ public class FileHelper {
         }
     }
 
-    public static String savefile(Context context, Uri sourceuri) throws FileNotFoundException {
-        String outputfile = getFilePathForName(sourceuri.toString());
+    public static String savefile(Context context, Uri sourceuri, String time) throws FileNotFoundException {
+        String outputFile = getFilePathForName(time+sourceuri.toString());
 
         InputStream in = context.getContentResolver().openInputStream(sourceuri);
 
-        createFileFromInputStream(in, outputfile);
-
-        return outputfile;
+        createFileFromInputStream(in, outputFile);
+        return outputFile;
     }
 
     private static File createFileFromInputStream(InputStream inputStream, String fileName) {
