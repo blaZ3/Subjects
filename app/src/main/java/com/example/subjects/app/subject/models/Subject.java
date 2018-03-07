@@ -12,7 +12,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class Subject {
     private static final String TAG = Subject.class.getSimpleName();
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     @ColumnInfo(name = "title")
