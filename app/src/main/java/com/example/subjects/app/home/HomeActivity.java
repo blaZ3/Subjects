@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.subjects.BaseActivity;
+import com.example.subjects.MainApplication;
 import com.example.subjects.R;
 import com.example.subjects.app.subject.addSubject.AddSubjectActivity;
 import com.example.subjects.app.subject.models.Subject;
+import com.example.subjects.app.subject.repos.LocalSubjectRepository;
 import com.example.subjects.app.subject.repos.MockSubjectRepository;
 import com.example.subjects.databinding.ActivityHomeBinding;
 
@@ -36,7 +38,8 @@ public class HomeActivity extends BaseActivity implements HomeView {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
-        homePresenter = new HomePresenter(this, MockSubjectRepository.getInstance());
+        homePresenter = new HomePresenter(this, LocalSubjectRepository.getInstance(
+                MainApplication.getAppDatabase().subjectDAO()));
 
         dataBinding.fabHome.setOnClickListener(new View.OnClickListener() {
             @Override

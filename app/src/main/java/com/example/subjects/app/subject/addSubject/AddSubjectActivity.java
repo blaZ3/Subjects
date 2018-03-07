@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.subjects.BaseActivity;
+import com.example.subjects.MainApplication;
 import com.example.subjects.R;
 import com.example.subjects.app.subject.models.Subject;
+import com.example.subjects.app.subject.repos.LocalSubjectRepository;
 import com.example.subjects.app.subject.repos.MockSubjectRepository;
 import com.example.subjects.app.utils.FileHelper;
 import com.example.subjects.databinding.ActivityAddSubjectBinding;
@@ -44,7 +46,8 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
 
         timeOpened = ""+System.currentTimeMillis();
 
-        addSubjectPresenter = new AddSubjectPresenter(this, MockSubjectRepository.getInstance());
+        addSubjectPresenter = new AddSubjectPresenter(this,
+                LocalSubjectRepository.getInstance(MainApplication.getAppDatabase().subjectDAO()));
 
         dataBinding.btnSubjectAdd.setOnClickListener(addSubjectClickListener);
 
@@ -99,7 +102,7 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
         public void onClick(View v) {
             addSubjectPresenter.addSubject(dataBinding.edtxtSubjectTitle.getText().toString(),
                     dataBinding.edtxtSubjectDesc.getText().toString(),
-                    "");
+                    imageFilePath);
         }
     };
 

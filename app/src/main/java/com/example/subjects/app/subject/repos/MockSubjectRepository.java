@@ -20,6 +20,11 @@ public class MockSubjectRepository implements SubjectRepository {
         return instance;
     }
 
+
+    private MockSubjectRepository() {
+
+    }
+
     @Override
     public void addSubject(Subject subject, AddSubjectInterface callback) {
         callback.addedSubject(subject);
