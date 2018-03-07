@@ -6,11 +6,11 @@
 
 
     <item android:id="@+id/action_draw_undo"
-        android:icon="@drawable/ic_undo"
+        android:title="UNDO"
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_draw_redo"
-        android:icon="@drawable/ic_redo"
+        android:title="REDO"
         app:showAsAction="always"/>
 
 

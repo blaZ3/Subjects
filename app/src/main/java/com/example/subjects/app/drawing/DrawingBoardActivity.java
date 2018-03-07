@@ -80,10 +80,14 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_draw_undo:
-                makeToast("Undo");
+                if (drawingView.undoDrawing() == -1){
+                    makeToast("Cant Undo");
+                }
                 break;
             case R.id.action_draw_redo:
-                makeToast("Redo");
+                if (drawingView.redoDrawing() == -1){
+                    makeToast("Cant Redo");
+                }
                 break;
         }
         return true;

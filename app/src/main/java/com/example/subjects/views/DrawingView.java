@@ -7,10 +7,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Stack;
+
 public class DrawingView extends View {
+    private static final String TAG = DrawingView.class.getSimpleName();
 
     public int width;
     public  int height;
@@ -20,10 +24,11 @@ public class DrawingView extends View {
     private Paint mBitmapPaint;
     Context context;
 
-//    private Paint circlePaint;
-//    private Path circlePath;
-
     private Paint mPaint;
+    private Paint mPaintClear;
+
+    private Stack<Path> undoStack = new Stack<>();
+    private Stack<Path> redoStack = new Stack<>();
 
     public DrawingView(Context c) {
         super(c);
@@ -31,22 +36,23 @@ public class DrawingView extends View {
         mPath = new Path();
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
-//        circlePaint = new Paint();
-//        circlePath = new Path();
-//        circlePaint.setAntiAlias(true);
-//        circlePaint.setColor(Color.BLUE);
-//        circlePaint.setStyle(Paint.Style.STROKE);
-//        circlePaint.setStrokeJoin(Paint.Join.MITER);
-//        circlePaint.setStrokeWidth(4f);
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(4);
+        mPaint.setStrokeCap(Paint.Cap.SQUARE);
+        mPaint.setStrokeWidth(3);
+
+        mPaintClear = new Paint();
+        mPaintClear.setAntiAlias(true);
+        mPaintClear.setDither(true);
+        mPaintClear.setColor(Color.WHITE);
+        mPaintClear.setStyle(Paint.Style.STROKE);
+        mPaintClear.setStrokeJoin(Paint.Join.ROUND);
+        mPaintClear.setStrokeCap(Paint.Cap.SQUARE);
+        mPaintClear.setStrokeWidth(4);
 
     }
 
@@ -81,26 +87,56 @@ public class DrawingView extends View {
     }
 
     private void touch_move(float x, float y) {
+        Log.d(TAG, "touch_move() called with: x = [" + x + "], y = [" + y + "]");
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             mPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
             mX = x;
             mY = y;
-
-//            circlePath.reset();
-//            circlePath.addCircle(mX, mY, 30, Path.Direction.CW);
         }
     }
 
     private void touch_up() {
+        Log.d(TAG, "touch_up() called :"+mPath);
         mPath.lineTo(mX, mY);
-//        circlePath.reset();
+
         // commit the path to our offscreen
         mCanvas.drawPath(mPath,  mPaint);
+
+        Path didPath = new Path(mPath);
+        undoStack.push(didPath);
+        redoStack.clear();
+
+
         // kill this so we don't double draw
         mPath.reset();
     }
+
+    public int undoDrawing(){
+        if (!undoStack.isEmpty()){
+            Path undoPath = undoStack.pop();
+            mCanvas.drawPath(undoPath,  mPaintClear);
+            redoStack.add(new Path(undoPath));
+            undoPath.reset();
+            return 0;
+        }else {
+            return -1;
+        }
+    }
+
+    public int redoDrawing(){
+        if (!redoStack.isEmpty()){
+            Path redoPath = redoStack.pop();
+            mCanvas.drawPath(redoPath,  mPaint);
+            undoStack.add(new Path(redoPath));
+            redoPath.reset();
+            return 0;
+        }else {
+            return -1;
+        }
+    }
+
 
     public void clearDrawing(){
         setDrawingCacheEnabled(false);
@@ -115,10 +151,7 @@ public class DrawingView extends View {
 
     public Bitmap saveDrawing(){
         Bitmap whatTheUserDrewBitmap = getDrawingCache();
-        // don't forget to clear it (see above) or you just get duplicates
 
-        // almost always you will want to reduce res from the very high screen res
-//        whatTheUserDrewBitmap = ThumbnailUtils.extractThumbnail(whatTheUserDrewBitmap, 256*2, 300);
         whatTheUserDrewBitmap = ThumbnailUtils.extractThumbnail(whatTheUserDrewBitmap, width, height);
 
         return whatTheUserDrewBitmap;
@@ -126,6 +159,7 @@ public class DrawingView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d(TAG, "onTouchEvent() called with: event = [" + event + "]");
         float x = event.getX();
         float y = event.getY();
 
