@@ -124,7 +124,6 @@ public class DrawingView extends View {
         return whatTheUserDrewBitmap;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();

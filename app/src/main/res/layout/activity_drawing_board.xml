@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.subjects.app.drawing.DrawingBoardActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_drawing"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:elevation="5dp"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
+
+
+        <FrameLayout
+            android:id="@+id/layout_drawing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar_drawing"
+            android:layout_above="@+id/btn_drawing_save"
+            android:scaleType="centerCrop"
+            android:orientation="vertical"/>
+
+        <Button
+            android:id="@+id/btn_drawing_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/custom_btn_background_non_rounded"
+            android:textColor="@color/white"
+            android:text="Save"/>
+
+
+    </RelativeLayout>
+
+</layout>

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.subjects.app.drawing.DrawingBoardActivity;
 import com.example.subjects.app.home.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +17,10 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HomeActivity.start(MainActivity.this);
+
+//                HomeActivity.start(MainActivity.this);
+                DrawingBoardActivity.start(MainActivity.this);
+
                 finish();
             }
         }, 1000);

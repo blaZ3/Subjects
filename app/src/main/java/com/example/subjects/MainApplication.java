@@ -19,7 +19,7 @@ public class MainApplication extends Application {
         super.onCreate();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "Subjects_db").allowMainThreadQueries().build();
+                AppDatabase.class, "Subjects_db").build();
     }
 
 
