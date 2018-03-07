@@ -24,6 +24,7 @@
             tools:listitem="@layout/layout_subject_item"/>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

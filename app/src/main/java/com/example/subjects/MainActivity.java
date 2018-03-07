@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 HomeActivity.start(MainActivity.this);
+                finish();
             }
         }, 1000);
     }
