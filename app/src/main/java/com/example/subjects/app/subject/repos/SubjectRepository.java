@@ -10,12 +10,19 @@ import java.util.ArrayList;
 
 public interface SubjectRepository {
 
-    void addSubject(Subject subject);
+    void addSubject(Subject subject, AddSubjectInterface callback);
 
-    void getSubjects();
+    void getSubjects(GetSubjectsInterface callback);
 
-    interface SubjectRepositoryInterface{
-        void gotSubjects(ArrayList<Subject> subjects);
+    interface AddSubjectInterface{
+        void addedSubject(Subject subject);
+        void onError();
     }
+
+    interface GetSubjectsInterface{
+        void gotSubjects(ArrayList<Subject> subjects);
+        void onError();
+    }
+
 
 }
