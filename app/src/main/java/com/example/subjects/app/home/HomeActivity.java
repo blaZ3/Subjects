@@ -90,7 +90,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
                 DrawingBoardActivity.start(HomeActivity.this);
                 break;
             case R.id.action_home_logout:
-                makeToast("Logging you out");
+                makeToast("Logging you out, please wait...");
                 AuthUI.getInstance()
                         .signOut(this)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {

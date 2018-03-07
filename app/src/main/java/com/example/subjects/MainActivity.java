@@ -37,29 +37,45 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // Choose authentication providers
-        final List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
 
         if (MainApplication.getSharedPref().getString(AppConstants.PREF_LOGGED_IN, "").equals("")){
-            dataBinding.btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Create and launch sign-in intent
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .build(),
-                            RC_SIGN_IN);
-                }
-            });
+            dataBinding.btnLogin.setOnClickListener(loginClickListener);
         }else {
             HomeActivity.start(MainActivity.this);
             finish();
         }
 
+        dataBinding.txtSkipLogin.setOnClickListener(skipClickListener);
     }
+
+    View.OnClickListener skipClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            MainApplication.getSharedPref()
+                    .edit()
+                    .putString(AppConstants.PREF_LOGGED_IN, "true")
+                    .commit();
+
+            HomeActivity.start(MainActivity.this);
+            finish();
+        }
+    };
+
+    View.OnClickListener loginClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Choose authentication providers
+            final List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
