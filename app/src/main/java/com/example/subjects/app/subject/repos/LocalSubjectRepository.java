@@ -2,8 +2,7 @@ package com.example.subjects.app.subject.repos;
 
 import android.os.AsyncTask;
 
-import com.example.subjects.app.db.AppDatabase;
-import com.example.subjects.app.db.SubjectDAO;
+import com.example.subjects.db.SubjectDAO;
 import com.example.subjects.app.subject.models.Subject;
 
 import java.util.ArrayList;

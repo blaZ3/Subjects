@@ -1,4 +1,4 @@
-package com.example.subjects.app.subject.addSubject;
+package com.example.subjects.app.addSubject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import com.example.subjects.MainApplication;
 import com.example.subjects.R;
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.LocalSubjectRepository;
-import com.example.subjects.app.subject.repos.MockSubjectRepository;
 import com.example.subjects.app.utils.FileHelper;
 import com.example.subjects.databinding.ActivityAddSubjectBinding;
 

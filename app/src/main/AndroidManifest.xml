@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.home.HomeActivity" />
-        <activity android:name=".app.subject.addSubject.AddSubjectActivity"></activity>
+        <activity android:name=".app.addSubject.AddSubjectActivity"></activity>
     </application>
 
 </manifest>

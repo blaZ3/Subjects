@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.subjects.app.subject.addSubject.AddSubjectActivity">
+        tools:context="com.example.subjects.app.addSubject.AddSubjectActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_add_subject"

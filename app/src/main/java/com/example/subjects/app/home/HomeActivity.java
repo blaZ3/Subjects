@@ -11,10 +11,9 @@ import android.view.View;
 import com.example.subjects.BaseActivity;
 import com.example.subjects.MainApplication;
 import com.example.subjects.R;
-import com.example.subjects.app.subject.addSubject.AddSubjectActivity;
+import com.example.subjects.app.addSubject.AddSubjectActivity;
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.LocalSubjectRepository;
-import com.example.subjects.app.subject.repos.MockSubjectRepository;
 import com.example.subjects.databinding.ActivityHomeBinding;
 
 import java.util.ArrayList;

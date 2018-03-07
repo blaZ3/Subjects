@@ -3,7 +3,7 @@ package com.example.subjects;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.example.subjects.app.db.AppDatabase;
+import com.example.subjects.db.AppDatabase;
 
 /**
  * Created by vivek on 07/03/18.

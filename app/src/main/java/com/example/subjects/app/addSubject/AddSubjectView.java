@@ -1,4 +1,4 @@
-package com.example.subjects.app.subject.addSubject;
+package com.example.subjects.app.addSubject;
 
 import com.example.subjects.app.subject.models.Subject;
 
