@@ -1,4 +1,4 @@
-package com.example.subjects.app.addSubject;
+package com.example.subjects.app.subject.addSubject;
 
 /**
  * Created by vivek on 07/03/18.

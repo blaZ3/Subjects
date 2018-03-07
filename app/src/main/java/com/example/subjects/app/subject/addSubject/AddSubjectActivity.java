@@ -1,4 +1,4 @@
-package com.example.subjects.app.addSubject;
+package com.example.subjects.app.subject.addSubject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
