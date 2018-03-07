@@ -45,6 +45,8 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
 
         timeOpened = ""+System.currentTimeMillis();
 
+        initToolbar();
+
         addSubjectPresenter = new AddSubjectPresenter(this,
                 LocalSubjectRepository.getInstance(MainApplication.getAppDatabase().subjectDAO()));
 
@@ -58,6 +60,20 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),
                         PICK_IMAGE);
+            }
+        });
+    }
+
+
+    private void initToolbar() {
+        setSupportActionBar(dataBinding.toolbarAddSubject);
+        getSupportActionBar().setTitle("Add Subject");
+        dataBinding.toolbarAddSubject.setNavigationIcon(
+                getResources().getDrawable(R.drawable.ic_arrow_back));
+        dataBinding.toolbarAddSubject.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
