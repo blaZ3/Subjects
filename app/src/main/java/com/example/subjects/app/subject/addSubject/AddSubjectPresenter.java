@@ -46,7 +46,7 @@ public class AddSubjectPresenter {
         final Subject subject = new Subject();
         subject.setTitle(title);
         subject.setDesc(desc);
-        subject.setImgName(imgFilePath);
+        subject.setImgFilePath(imgFilePath);
         subjectRepository.addSubject(subject, new SubjectRepository.AddSubjectInterface() {
             @Override
             public void addedSubject(Subject subject) {

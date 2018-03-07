@@ -10,7 +10,7 @@ public class Subject {
     private long id;
     private String title;
     private String desc;
-    private String imgName;
+    private String imgFilePath;
 
 
     public long getId() {
@@ -37,11 +37,11 @@ public class Subject {
         this.desc = desc;
     }
 
-    public String getImgName() {
-        return imgName;
+    public String getImgFilePath() {
+        return imgFilePath;
     }
 
-    public void setImgName(String imgName) {
-        this.imgName = imgName;
+    public void setImgFilePath(String imgFilePath) {
+        this.imgFilePath = imgFilePath;
     }
 }
