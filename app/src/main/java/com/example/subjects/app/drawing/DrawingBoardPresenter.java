@@ -22,7 +22,7 @@ public class DrawingBoardPresenter {
 
         try{
             long currTime = System.currentTimeMillis();
-            String filePath = FileHelper.getFilePathForName(currTime+"");
+            String filePath = FileHelper.getFilePathForName(currTime+"") + ".png";
             bitmap.compress(Bitmap.CompressFormat.PNG, 80,
                     new FileOutputStream(filePath));
 

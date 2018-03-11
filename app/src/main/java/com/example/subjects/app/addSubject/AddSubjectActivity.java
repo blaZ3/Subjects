@@ -123,15 +123,17 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
                         public void onPermissionsChecked(MultiplePermissionsReport report) {
                             super.onPermissionsChecked(report);
                             if (report.areAllPermissionsGranted()){
+
                                 Intent intent = new Intent();
                                 intent.setType("image/*");
                                 intent.setAction(Intent.ACTION_GET_CONTENT);
                                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),
                                         PICK_IMAGE);
+
                             }else if (report.isAnyPermissionPermanentlyDenied()){
-                                makeToast("Please go to settings and grant the storage permission to add image to the subject");
+                                makeToast(getString(R.string.add_image_rationale_denied));
                             }else {
-                                makeToast("Please grant the permission to add image to subject");
+                                makeToast(getString(R.string.add_image_rationale));
                             }
                         }
 

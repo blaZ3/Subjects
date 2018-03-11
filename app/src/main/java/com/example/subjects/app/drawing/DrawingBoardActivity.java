@@ -13,8 +13,16 @@ import android.view.View;
 
 import com.example.subjects.BaseActivity;
 import com.example.subjects.R;
+import com.example.subjects.app.addSubject.AddSubjectActivity;
 import com.example.subjects.databinding.ActivityDrawingBoardBinding;
 import com.example.subjects.views.DrawingView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
+
+import java.util.List;
 
 public class DrawingBoardActivity extends BaseActivity implements DrawingBoardView {
     private static final String TAG = DrawingBoardActivity.class.getSimpleName();
@@ -99,8 +107,34 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
     }
 
     private void saveDrawing() {
-        Bitmap drawing = drawingView.saveDrawing();
-        drawingBoardPresenter.saveDrawing(drawing);
+        Dexter.withActivity(DrawingBoardActivity.this)
+                .withPermissions(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new BaseMultiplePermissionsListener(){
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        super.onPermissionsChecked(report);
+                        if (report.areAllPermissionsGranted()){
+
+                            Bitmap drawing = drawingView.saveDrawing();
+                            drawingBoardPresenter.saveDrawing(drawing);
+
+                            finish();
+
+                        }else if (report.isAnyPermissionPermanentlyDenied()){
+                            makeToast(getString(R.string.save_drawing_rationale_denied));
+                        }else {
+                            makeToast(getString(R.string.save_drawing_rationale));
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        super.onPermissionRationaleShouldBeShown(permissions, token);
+                    }
+                })
+                .check();
     }
 
     @Override

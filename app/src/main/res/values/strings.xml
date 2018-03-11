@@ -6,4 +6,10 @@
     <string name="error_invalid_desc">Please enter a valid description</string>
     <string name="error_invalid_image">Please select a valid image</string>
 
+    <string name="add_image_rationale_denied">Please go to settings and grant storage permission to add image to the subject</string>
+    <string name="add_image_rationale">Please grant storage permission to add image to subject</string>
+
+    <string name="save_drawing_rationale_denied">Please go to settings and grant storage permission to save the drawing</string>
+    <string name="save_drawing_rationale">Please grant storage permission to save the drawing</string>
+
 </resources>
