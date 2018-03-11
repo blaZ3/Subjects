@@ -45,6 +45,7 @@
                     android:fontFamily="@font/roboto_black"
                     android:textColor="@color/text"
                     tools:text="Title"
+                    android:textSize="@dimen/text_title"
                     android:text="@{subject.title}"/>
 
                 <TextView
@@ -55,6 +56,7 @@
                     android:lineSpacingMultiplier="1.3"
                     android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/text"
+                    android:textSize="@dimen/text_normal"
                     tools:text="Desc"
                     android:text="@{subject.desc}"/>
 
