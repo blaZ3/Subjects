@@ -120,8 +120,6 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
                             Bitmap drawing = drawingView.saveDrawing();
                             drawingBoardPresenter.saveDrawing(drawing);
 
-                            finish();
-
                         }else if (report.isAnyPermissionPermanentlyDenied()){
                             makeToast(getString(R.string.save_drawing_rationale_denied));
                         }else {
@@ -140,6 +138,7 @@ public class DrawingBoardActivity extends BaseActivity implements DrawingBoardVi
     @Override
     public void drawingSaved(String filePath) {
         makeToast("Drawing saved to "+filePath);
+        finish();
     }
 
     @Override
