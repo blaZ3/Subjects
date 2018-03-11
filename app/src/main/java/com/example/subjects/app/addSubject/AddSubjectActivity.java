@@ -12,13 +12,21 @@ import android.view.View;
 
 import com.example.subjects.BaseActivity;
 import com.example.subjects.MainApplication;
+import com.example.subjects.Manifest;
 import com.example.subjects.R;
 import com.example.subjects.app.subject.models.Subject;
 import com.example.subjects.app.subject.repos.LocalSubjectRepository;
 import com.example.subjects.app.utils.FileHelper;
 import com.example.subjects.databinding.ActivityAddSubjectBinding;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
+import com.karumi.dexter.listener.single.BasePermissionListener;
 
 import java.io.File;
+import java.util.List;
 
 public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
     private static final String TAG = AddSubjectActivity.class.getSimpleName();
@@ -51,17 +59,7 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
                 LocalSubjectRepository.getInstance(MainApplication.getAppDatabase().subjectDAO()));
 
         dataBinding.btnSubjectAdd.setOnClickListener(addSubjectClickListener);
-
-        dataBinding.imgSubjectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                        PICK_IMAGE);
-            }
-        });
+        dataBinding.imgSubjectImage.setOnClickListener(addImageClickListener);
     }
 
 
@@ -111,6 +109,40 @@ public class AddSubjectActivity extends BaseActivity implements AddSubjectView {
             }
         }
     }
+
+    View.OnClickListener addImageClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Dexter.withActivity(AddSubjectActivity.this)
+                    .withPermissions(
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .withListener(new BaseMultiplePermissionsListener(){
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            super.onPermissionsChecked(report);
+                            if (report.areAllPermissionsGranted()){
+                                Intent intent = new Intent();
+                                intent.setType("image/*");
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                                        PICK_IMAGE);
+                            }else if (report.isAnyPermissionPermanentlyDenied()){
+                                makeToast("Please go to settings and grant the storage permission to add image to the subject");
+                            }else {
+                                makeToast("Please grant the permission to add image to subject");
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            super.onPermissionRationaleShouldBeShown(permissions, token);
+                        }
+                    })
+                    .check();
+        }
+    };
 
     View.OnClickListener addSubjectClickListener = new View.OnClickListener() {
         @Override

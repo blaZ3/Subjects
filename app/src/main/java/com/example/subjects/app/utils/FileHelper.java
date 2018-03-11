@@ -71,7 +71,6 @@ public class FileHelper {
 
     }
 
-
     public static String getMD5Hash(String s) {
         MessageDigest m = null;
 
